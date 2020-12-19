@@ -19,6 +19,31 @@
       "id": "EtOOKlXYI3kwRaVSifnF5"
     }
   ],
-  "posts": [],
+  "posts": [
+    {
+      "message": "yooo!",
+      "author": "EtOOKlXYI3kwRaVSifnF5",
+      "createdAt": 1608354010930,
+      "id": "3WVCyQnaF01nGhFWGBnD-"
+    },
+    {
+      "message": "yooo!",
+      "author": "EtOOKlXYI3kwRaVSifnF5",
+      "createdAt": 1608354068236,
+      "id": "mMuxldKBaJ7j8TDnJxLKt"
+    },
+    {
+      "message": "hey!",
+      "author": "EtOOKlXYI3kwRaVSifnF5",
+      "createdAt": 1608354132477,
+      "id": "5xBVx9YrPpCV4fxyGqZyP"
+    },
+    {
+      "message": "afae!",
+      "author": "EtOOKlXYI3kwRaVSifnF5",
+      "createdAt": 1608354161141,
+      "id": "c3ROXy2_LR_nLMLHQK6ZL"
+    }
+  ],
   "settings": []
 }

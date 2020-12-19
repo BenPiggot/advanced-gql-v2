@@ -1,5 +1,7 @@
 const {authenticated, authorized} = require('./auth')
+const { PubSub } = require('apollo-server')
 const NEW_POST = 'NEW_POST'
+const pubSub = new PubSub()
 
 /**
  * Anything Query / Mutation resolver
@@ -27,6 +29,11 @@ module.exports = {
       return models.Post.findMany()
     }
   },
+  Subscription: {
+    newPost: {
+      subscribe: () => pubSub.asyncIterator(NEW_POST)
+    }
+  },
   Mutation: {
     updateSettings: authenticated((_, {input}, {user, models}) => {
       return models.Settings.updateOne({user: user.id}, input)
@@ -34,7 +41,7 @@ module.exports = {
 
     createPost: authenticated((_, {input}, {user, models}) => {
       const post = models.Post.createOne({...input, author: user.id})
-      pubsub.publish(NEW_POST, { newPost: post })
+      pubSub.publish(NEW_POST, { newPost: post })
       return post
     }),
 
