@@ -1,12 +1,29 @@
 const gql = require('graphql-tag');
-const { ApolloServer, PubSub } = require('apollo-server');
+const { ApolloServer, PubSub, SchemaDirectiveVisitor } = require('apollo-server');
+const { defaultFieldResolver, GraphQLString } = require('graphql')
 
 const pubSub = new PubSub();
 const NEW_ITEM = 'NEW_ITEM';
 
+class LogDirective extends SchemaDirectiveVisitor {
+  visitFieldDefinition(field) {
+    const resolver = field.resolve || defaultFieldResolver
+    field.args.push({
+      type: GraphQLString,
+      name: 'message'
+    })
+    field.resolve = (root, {message, ...rest}, ctx, info) => {
+      console.log('⚡️ hello', message)
+      return resolver.call(this, root, rest, ctx, info)
+    }
+  }
+}
+
 const typeDefs = gql`
+  directive @log on FIELD_DEFINITION 
+
   type User {
-    id: ID!
+    id: ID! @log
     username: String!
     createdAt: Int!
   }
@@ -84,6 +101,9 @@ const resolvers = {
 
 const server = new ApolloServer({
   typeDefs, resolvers,
+  schemaDirectives: {
+    log: LogDirective
+  },
   context({ connection }) {
     if (connection) {
       return { ...connection.context };
